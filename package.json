@@ -1,0 +1,49 @@
+{
+  "name": "vue-components-itable",
+  "version": "1.0.6",
+  "main": "./dist/main.bundle.js",
+  "author": "JackSunday",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "dev": "webpack-dev-server --open",
+    "build": "cross-env NODE_ENV=production webpack --mode production --config webpack.config.js",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
+    "@vue/babel-preset-jsx": "^1.1.2",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-component": "^1.1.1",
+    "cross-env": "^7.0.2",
+    "css-loader": "^3.6.0",
+    "file-loader": "^6.1.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
+    "html-webpack-plugin": "^4.3.0",
+    "less": "^3.11.3",
+    "less-loader": "^6.2.0",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^8.0.4",
+    "tslint": "^6.1.3",
+    "tslint-config-standard": "^9.0.0",
+    "tslint-loader": "^3.5.4",
+    "typescript": "^4.0.3",
+    "vue": "^2.6.11",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "element-ui": "^2.13.2",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.6",
+    "vue-property-decorator": "^9.0.0",
+    "vue-router": "^3.3.4"
+  }
+}
