@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="home"></div>
+		<div class="home">66666</div>
 		<div class="table-wrap">
 			<i-table
 				:tableData="tableData"
@@ -14,7 +14,7 @@
 	</div>
 </template>
 <script>
-import ITable from '../components/ITable/index.tsx'
+import ITable from "../components/ITable"
 export default {
 	name: 'home',
 	components: {
@@ -101,7 +101,7 @@ export default {
 		},
     },
     mounted(){
-      
+      alert("989999")
     }
 }
 </script>

@@ -10,8 +10,14 @@ module.exports = {
 		// port:1717
     },
 	output: { //配置出口文件
-        filename: '[name].bundle.js', //配置输出文件名字的格式
-        path: path.join(__dirname, './dist') //输出的绝对路径
+        //filename: '[name].bundle.js', //配置输出文件名字的格式
+        path: path.join(__dirname, './dist'), //输出的绝对路径
+        publicPath: '/dist/',//路径
+	 	filename: 'itable.js',//打包之后的名称
+	 	library: 'itable', // 指定的就是你使用require时的模块名
+	 	libraryTarget: 'umd', // 指定输出格式
+	 	umdNamedDefine: true // 会对 UMD 的构建过程中的 AMD 模块进行命名。否则就使用匿名的 define
+
     },
     resolve:{
         extensions: ['.js', '.vue', '.json', 'ts', 'tsx'], // 新增了'ts', 'tsx'

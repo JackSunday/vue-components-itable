@@ -1,9 +1,9 @@
-import ITable from "./src/components/ITable/index.tsx"
+import ITable from "./src/components/ITable"
 
 const components=[ITable]
 const install = function(Vue, opts = {}) {  
     components.forEach(component => {
-      Vue.component(component.name, component);
+      Vue.component(component.componentsName, component);
     });
 } 
 

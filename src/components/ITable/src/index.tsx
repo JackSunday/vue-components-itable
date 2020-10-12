@@ -46,6 +46,7 @@ export interface operateColumn extends columns {
 
 
 @Component({
+    name:'ITable',
     components: {
         Table,
         Button,

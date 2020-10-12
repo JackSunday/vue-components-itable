@@ -1,7 +1,7 @@
 {
   "name": "vue-components-itable",
-  "version": "1.0.6",
-  "main": "./dist/main.bundle.js",
+  "version": "1.1.1",
+  "main": "dist/itable.js",
   "author": "JackSunday",
   "license": "MIT",
   "private": false,
