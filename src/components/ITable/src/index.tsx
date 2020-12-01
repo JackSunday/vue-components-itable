@@ -1,6 +1,6 @@
 import Vue, { CreateElement } from "vue"
-import { Component, Emit, Prop,Ref} from "vue-property-decorator"
-import { Table, TableColumn, Pagination, Button,Loading} from "element-ui"
+import { Component, Emit, Prop, Ref } from "vue-property-decorator"
+import { Table, TableColumn, Pagination, Button, Loading } from "element-ui"
 
 export type heightType = string | number
 export type sizeType = 'medium ' | 'small' | 'mini'
@@ -12,6 +12,7 @@ export interface columns {
     width?: string,
     type?: string,
     slot?: boolean,
+    slotName?: string,
     format?: (row: object) => any
 }
 
@@ -22,6 +23,7 @@ export interface pagination {
     pageCount?: number,
     layout?: string,
     popperClass?: string,
+    slotName?: string,
     prevText?: string,
     nextText?: string,
     disabled?: boolean,
@@ -34,7 +36,9 @@ export interface list {
     type?: string,
     icon?: string,
     size?: string,
+    slotName?:string,
     disabled?: boolean,
+    show?: boolean,
     slot?: boolean,
     format?: (row: object) => any,
     method?: (row: any) => void
@@ -46,7 +50,7 @@ export interface operateColumn extends columns {
 
 
 @Component({
-    name:'ITable',
+    name: 'ITable',
     components: {
         Table,
         Button,
@@ -55,9 +59,9 @@ export interface operateColumn extends columns {
     }
 })
 export default class ITable extends Vue {
-    
-    private itableNode : HTMLDivElement
-    private loadingInstance:any
+
+    private itableNode: HTMLDivElement
+    private loadingInstance: any
 
 
     @Prop(Array) columns: [columns]
@@ -70,7 +74,7 @@ export default class ITable extends Vue {
     @Prop({ default: { pageSize: 10, currentPage: 1, total: 10 } }) pagination: pagination
     @Prop({ default: () => ({ textAlign: 'right', marginTop: '15px' }) }) styleObj: any
     @Prop() height: heightType
-    @Prop() maxHeight:heightType
+    @Prop() maxHeight: heightType
     @Prop() currentRowKey: string | number
     @Prop() stripe: boolean
     @Prop() border: boolean
@@ -78,35 +82,35 @@ export default class ITable extends Vue {
     @Prop() showHeader: boolean
     @Prop() highlightCurrentRow: boolean
     @Prop() size: sizeType
-    @Prop() rowClassName: (row:object,rowIndex:number) => any | string
-    @Prop() rowStyle: (row:object,rowIndex:number) => any | object
-    @Prop() cellClassName: (row:object,column:any,rowIndex:number,columnIndex:number) => any | string
-    @Prop() cellStyle: (row:object,column:any,rowIndex:number,columnIndex:number) => any | object
-    @Prop() headerRowClassName: (row:object,rowIndex:number) => any | string
-    @Prop() headerRowStyle: (row:object,rowIndex:number) => any | object
-    @Prop() headerCellClassName: (row:object,column:any,rowIndex:number,columnIndex:number) => any | string
-    @Prop() headerCellStyle: (row:object,column:any,rowIndex:number,columnIndex:number) => any | object
-    @Prop() rowKey:(row:any)=>any |string
-    @Prop() emptyText:string
-    @Prop() defaultExpandAll:boolean
-    @Prop({default:false}) emptySlot:boolean
-    @Prop() expandRowKeys:Array<number>
+    @Prop() rowClassName: (row: object, rowIndex: number) => any | string
+    @Prop() rowStyle: (row: object, rowIndex: number) => any | object
+    @Prop() cellClassName: (row: object, column: any, rowIndex: number, columnIndex: number) => any | string
+    @Prop() cellStyle: (row: object, column: any, rowIndex: number, columnIndex: number) => any | object
+    @Prop() headerRowClassName: (row: object, rowIndex: number) => any | string
+    @Prop() headerRowStyle: (row: object, rowIndex: number) => any | object
+    @Prop() headerCellClassName: (row: object, column: any, rowIndex: number, columnIndex: number) => any | string
+    @Prop() headerCellStyle: (row: object, column: any, rowIndex: number, columnIndex: number) => any | object
+    @Prop() rowKey: (row: any) => any | string
+    @Prop() emptyText: string
+    @Prop() defaultExpandAll: boolean
+    @Prop({ default: false }) emptySlot: boolean
+    @Prop() expandRowKeys: Array<number>
     @Prop() defaultSort: object
     @Prop() tooltipEffect: tooltipEffectType
     @Prop() showSummary: boolean
     @Prop() sumText: string
-    @Prop() summaryMethod: (row:any)=>any
-    @Prop() spanMethod:  (row:any)=>any
-    @Prop() selectOnIndeterminate:boolean
-    @Prop() indent:number
-    @Prop() lazy:Boolean
-    @Prop() load:(row:object,treeNode:any,resolve:any)=>any
+    @Prop() summaryMethod: (row: any) => any
+    @Prop() spanMethod: (row: any) => any
+    @Prop() selectOnIndeterminate: boolean
+    @Prop() indent: number
+    @Prop() lazy: Boolean
+    @Prop() load: (row: object, treeNode: any, resolve: any) => any
     @Prop() treeProps: object
-    @Prop({default:false}) loading: Boolean
+    @Prop({ default: false }) loading: Boolean
 
 
 
-    
+
     @Emit('current-change')
     currentChange(page: number) {
 
@@ -124,131 +128,131 @@ export default class ITable extends Vue {
 
     }
     @Emit('select')
-    select(selection:any, row:any) {
+    select(selection: any, row: any) {
 
     }
     @Emit('select-all')
-    selectAll(selection:any) {
+    selectAll(selection: any) {
 
     }
     @Emit('selection-change')
-    selectionChange(selection:any) {
+    selectionChange(selection: any) {
 
     }
     @Emit('cell-mouse-enter')
-    cellMouseEnter(row:object, column:object, cell:any, event:Event) {
+    cellMouseEnter(row: object, column: object, cell: any, event: Event) {
 
     }
     @Emit('cell-mouse-leave')
-    cellMouseLeave(row:object, column:object, cell:any, event:Event) {
+    cellMouseLeave(row: object, column: object, cell: any, event: Event) {
 
     }
     @Emit('cell-click')
-    cellClick(row:object, column:object, cell:any, event:Event) {
+    cellClick(row: object, column: object, cell: any, event: Event) {
 
     }
     @Emit('cell-dblclick')
-    cellDblclick(row:object, column:object, cell:any, event:Event) {
+    cellDblclick(row: object, column: object, cell: any, event: Event) {
 
     }
     @Emit('row-click')
-    rowClick(row:object, column:object, event:Event) {
+    rowClick(row: object, column: object, event: Event) {
 
     }
     @Emit('row-contextmenu')
-    rowContextmenu(row:object, column:object, event:Event) {
+    rowContextmenu(row: object, column: object, event: Event) {
 
     }
     @Emit('row-dblclick')
-    rowDblclick(row:object, column:object, event:Event) {
+    rowDblclick(row: object, column: object, event: Event) {
 
     }
     @Emit('header-click')
-    headerClick(column:object, event:Event) {
+    headerClick(column: object, event: Event) {
 
     }
     @Emit('header-contextmenu')
-    headerContextmenu(column:object, event:Event) {
+    headerContextmenu(column: object, event: Event) {
 
     }
     @Emit('sort-change')
-    sortchange(column:object) {
+    sortchange(column: object) {
 
     }
     @Emit('filter-change')
-    filterchange(column:any) {
+    filterchange(column: any) {
 
     }
     @Emit('current-change-itable')
-    currentChangeItable(currentRow:any, oldCurrentRow:any) {
+    currentChangeItable(currentRow: any, oldCurrentRow: any) {
 
     }
     @Emit('header-dragend')
-    headerDragend(newWidth:number |string, oldWidth:number |string, column:object, even:Event) {
+    headerDragend(newWidth: number | string, oldWidth: number | string, column: object, even: Event) {
 
     }
     @Emit('expand-change')
-    expandChange(row:any,expandChange:any) {
+    expandChange(row: any, expandChange: any) {
 
     }
-    
 
-    clearSelection(){
+
+    clearSelection() {
         this.$refs.table['clearSelection']()
     }
-    toggleRowSelection(row, selected){
+    toggleRowSelection(row, selected) {
         this.$refs.table['toggleRowSelection'](row, selected)
     }
-    toggleAllSelection(){
+    toggleAllSelection() {
         this.$refs.table['toggleAllSelection']()
     }
-    toggleRowExpansion(row, expanded){
+    toggleRowExpansion(row, expanded) {
         this.$refs.table['toggleRowExpansion'](row, expanded)
     }
-    setCurrentRow(){
+    setCurrentRow() {
         this.$refs.table['setCurrentRow']()
     }
-    clearSort(){
+    clearSort() {
         this.$refs.table['clearSort']()
     }
-    clearFilter(columnKey){
+    clearFilter(columnKey) {
         this.$refs.table['clearFilter'](columnKey)
     }
-    doLayout(){
+    doLayout() {
         this.$refs.table['doLayout']()
     }
-    sort(prop: string, order: string){
+    sort(prop: string, order: string) {
         this.$refs.table['sort'](prop, order)
     }
-    checkObj(options:object){
-       const obj:object = {}
-       if(Array.isArray(options)){
-           for (const op in options) {
-               if(options[op] ==='tableData'){
-                obj['data'] = this.tableData   
-               }else if(options[op] !=='columns' &&options[op] !=='operateColumn' &&options[op] !=='pagination'){
-                 if(this[options[op]]){
-                    obj[options[op]] =this[options[op]]
-                 }
-               }
-               
-           }
-           return obj
-       }
+    checkObj(options: object) {
+        const obj: object = {}
+        if (Array.isArray(options)) {
+            for (const op in options) {
+                if (options[op] === 'tableData') {
+                    obj['data'] = this.tableData
+                } else if (options[op] !== 'columns' && options[op] !== 'operateColumn' && options[op] !== 'pagination') {
+                    if (this[options[op]]) {
+                        obj[options[op]] = this[options[op]]
+                    }
+                }
+
+            }
+            return obj
+        }
     }
     render(h: CreateElement) {
         const tableProps = this.checkObj(this.$options['_propKeys'])
         // 自定义每一行的列表
         const renderColumns = this.columns.map(column => {
             const { prop, type } = column
-            // 自定义插槽
+            // 自定义头部插槽
             const header = {
-                header:props=>{
-                    const { row} = props
-                    if(column.slot){
+                header: props => {
+                    const { row } = props
+                    if (column.slot) {
                         return this.$scopedSlots.header(row)
                     }
-                }  
+                }
             }
             const scopedSlots = {
                 default: props => {
@@ -257,13 +261,17 @@ export default class ITable extends Vue {
                         const { pageSize, currentPage } = this.pagination
                         return <div>{(currentPage - 1) * pageSize + $index + 1}</div>
                     }
+                    //自定义操作(插槽可以具有名字)
+                    if (column.slot&&column.slotName!=="header") {              
+                        return column.slotName ? this.$scopedSlots[column.slotName](row) : this.$scopedSlots.default(row)
+                    }
                     if (column.format) {
                         return <div domPropsInnerHTML={column.format(row)}></div>
                     } else {
                         return <div>{row[prop]}</div>
                     }
                 },
-                ...column.slot? header : {}
+                ...column.slotName === "header" ? header : {}
             }
             if (type && type === 'selection') {
                 return <TableColumn {...{ attrs: { ...column } }} />
@@ -282,10 +290,11 @@ export default class ITable extends Vue {
                         default: props => {
                             const { row } = props
                             return list.map(btn => {
+                                if (btn.show === false) {
+                                    return null
+                                }
                                 if (btn.slot) {
-                                    return this.$scopedSlots.default
-                                    ? this.$scopedSlots.default(btn)
-                                    : this.$slots.default;
+                                    return btn.slotName ? this.$scopedSlots[btn.slotName](row) : this.$scopedSlots.default(row)
                                 } else if (btn.method) {
                                     return <Button {...{ attrs: { ...btn } }} {...{ on: { 'click': () => btn.method(row) } }}>{btn.name}</Button>
                                 } else if (btn.format) {
@@ -293,7 +302,6 @@ export default class ITable extends Vue {
                                 } else {
                                     return <Button {...{ attrs: { ...btn } }}>{btn.name}</Button>
                                 }
-
                             })
                         }
                     }
@@ -302,53 +310,54 @@ export default class ITable extends Vue {
             }
 
         }
-       const scopedSlotsEmpty={
-          empty:props=>{
-              return this.$scopedSlots.empty(props)
-          }
-       }
+        const scopedSlotsEmpty = {
+            empty: props => {
+                return this.$scopedSlots.empty(props)
+            }
+        }
         // 是否加载loading 
-        if(this.itableNode &&this.loading){
-            
-            this.loadingInstance =Loading.service({
-                target: this.itableNode   
+        if (this.itableNode && this.loading) {
+            this.loadingInstance = Loading.service({
+                target: this.itableNode
             });
-            
-        }else if(this.loading===false&&this.loadingInstance){
-             this.loadingInstance['close']()
-            
+
+        } else if (this.loading === false && this.loadingInstance) {
+            this.loadingInstance['close']()
+
         }
         return (
             <div class="table-wrap">
                 {/* 表格 */}
                 <Table
-                    {...{ref:"table"}}
-                    {...{ attrs: {...tableProps} }}
-                    {...this.emptySlot ?{scopedSlots:scopedSlotsEmpty}:{}}
-                    {...{on:{
-                     'select':(selection, row)=>this.select(selection, row),
-                     'select-all':(selection)=>this.selectAll(selection),
-                     'selection-change':(selection)=>this.selectionChange(selection),
-                     'cell-mouse-enter':(row, column, cell, event)=>this.cellMouseEnter(row, column, cell, event),
-                     'cell-mouse-leave':(row, column, cell, event)=>this.cellMouseLeave(row, column, cell, event),
-                     'cell-click':(row, column, cell, event)=>this.cellClick(row, column, cell, event),
-                     'cell-dblclick':(row, column, cell, event)=>this.cellDblclick(row, column, cell, event),
-                     'row-click':(row, column,  event)=>this.rowClick(row, column, event),
-                     'row-contextmenu':(row, column,  event)=>this.rowContextmenu(row, column, event),
-                     'row-dblclick':(row, column,  event)=>this.rowDblclick(row, column, event),
-                     'header-click':(column,  event)=>this.headerClick(column, event),
-                     'header-contextmenu':(column,  event)=>this.headerContextmenu(column, event),
-                     'sort-change':(obj)=>this.sortchange(obj),
-                     'filter-change':(obj)=>this.filterchange(obj),
-                     'current-change':(currentRow, oldCurrentRow)=>this.currentChangeItable(currentRow, oldCurrentRow),
-                     'header-dragend':(newWidth, oldWidth, column, even)=>this.headerDragend(newWidth, oldWidth, column, even),
-                     'expand-change':(row,expandedRows)=>this.expandChange(row,expandedRows),
-                    }}}
-                    
+                    {...{ ref: "table" }}
+                    {...{ attrs: { ...tableProps } }}
+                    {...this.emptySlot ? { scopedSlots: scopedSlotsEmpty } : {}}
+                    {...{
+                        on: {
+                            'select': (selection, row) => this.select(selection, row),
+                            'select-all': (selection) => this.selectAll(selection),
+                            'selection-change': (selection) => this.selectionChange(selection),
+                            'cell-mouse-enter': (row, column, cell, event) => this.cellMouseEnter(row, column, cell, event),
+                            'cell-mouse-leave': (row, column, cell, event) => this.cellMouseLeave(row, column, cell, event),
+                            'cell-click': (row, column, cell, event) => this.cellClick(row, column, cell, event),
+                            'cell-dblclick': (row, column, cell, event) => this.cellDblclick(row, column, cell, event),
+                            'row-click': (row, column, event) => this.rowClick(row, column, event),
+                            'row-contextmenu': (row, column, event) => this.rowContextmenu(row, column, event),
+                            'row-dblclick': (row, column, event) => this.rowDblclick(row, column, event),
+                            'header-click': (column, event) => this.headerClick(column, event),
+                            'header-contextmenu': (column, event) => this.headerContextmenu(column, event),
+                            'sort-change': (obj) => this.sortchange(obj),
+                            'filter-change': (obj) => this.filterchange(obj),
+                            'current-change': (currentRow, oldCurrentRow) => this.currentChangeItable(currentRow, oldCurrentRow),
+                            'header-dragend': (newWidth, oldWidth, column, even) => this.headerDragend(newWidth, oldWidth, column, even),
+                            'expand-change': (row, expandedRows) => this.expandChange(row, expandedRows),
+                        }
+                    }}
+
                 >
                     {renderColumns}
                     {renderOperateColumn()}
-                   
+
 
                 </Table>
                 {/* 分页 */}
@@ -369,7 +378,7 @@ export default class ITable extends Vue {
             </div>
         )
     }
-    mounted(){
+    mounted() {
         this.itableNode = this.$refs.table['$el']
     }
 

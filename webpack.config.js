@@ -3,20 +3,20 @@ const { VueLoaderPlugin } = require('vue-loader')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const path = require('path')
 module.exports = {
-	entry: './index.js',
+	entry: './src/main.js',//./index.js
 	devServer: {
 		quiet: true,
 		//compress:true,
 		// port:1717
     },
 	output: { //配置出口文件
-        //filename: '[name].bundle.js', //配置输出文件名字的格式
-        path: path.join(__dirname, './dist'), //输出的绝对路径
-        publicPath: '/dist/',//路径
-	 	filename: 'itable.js',//打包之后的名称
-	 	library: 'itable', // 指定的就是你使用require时的模块名
-	 	libraryTarget: 'umd', // 指定输出格式
-	 	umdNamedDefine: true // 会对 UMD 的构建过程中的 AMD 模块进行命名。否则就使用匿名的 define
+        filename: '[name].bundle.js', //配置输出文件名字的格式
+        // path: path.join(__dirname, './dist'), //输出的绝对路径 -----发布的时候要放开
+        // publicPath: '/dist/',//路径-----发布的时候要放开
+	 	// filename: 'itable.js',//打包之后的名称-----发布的时候要放开
+	 	// library: 'itable', // 指定的就是你使用require时的模块名-----发布的时候要放开
+	 	// libraryTarget: 'umd', // 指定输出格式-----发布的时候要放开
+	 	// umdNamedDefine: true // 会对 UMD 的构建过程中的 AMD 模块进行命名。否则就使用匿名的 define-----发布的时候要放开
 
     },
     resolve:{

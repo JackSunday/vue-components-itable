@@ -1,20 +1,21 @@
 <template>
 	<div>
-		<div class="home">66666</div>
 		<div class="table-wrap">
 			<i-table
+                :emptySlot="emptySlot"
 				:tableData="tableData"
 				:columns="columns"
-                :operateColumn="operateColumn"
+				:operateColumn="operateColumn"
 				:pagination="pagination"
-                @current-change="currentChange"
+				@current-change="currentChange"
 			>
-            </i-table>
+               <div slot="empty">2222</div>
+			</i-table>
 		</div>
 	</div>
 </template>
 <script>
-import ITable from "../components/ITable"
+import ITable from '../components/ITable'
 export default {
 	name: 'home',
 	components: {
@@ -22,7 +23,8 @@ export default {
 	},
 	data() {
 		return {
-            stripe:true,
+            emptySlot:true,
+			stripe: true,
 			columns: [
 				{
 					prop: 'selection',
@@ -44,26 +46,23 @@ export default {
 				},
 				{
 					prop: 'address',
-					label: '地址',
-					format: (row) => {
-						return `<span>*****</span>`
-					},
+                    label: '地址',
 				},
 			],
 			tableData: [
-                {
-                    date:'20120',
-                    name:'邵阳',
-                },
-                {
-                    date:'20120',
-                    name:'邵阳',
-                },
-                {
-                    date:'20120',
-                    name:'邵阳',
-                },
-            ],
+				{
+					date: '20120',
+					name: '邵阳',
+				},
+				{
+					date: '20120',
+					name: '邵阳',
+				},
+				{
+					date: '20120',
+                    name: '邵阳',
+				},
+			],
 			pagination: {
 				currentPage: 2,
 				total: 20,
@@ -71,37 +70,23 @@ export default {
 			},
 			operateColumn: {
 				width: 350,
-                fixed: 'right',
-                label:'操作',
+				fixed: 'right',
+				label: '操作',
 				list: [
 					{
 						type: 'warning',
-                        name: '编辑',
-                        size:'small',
-                        format:row=>{
-                            return `<span>编辑</span>`
-                        },
-						
-					},
-					{
-						type: 'danger',
-                        name: '删除',
-                        size:'small',
-						method: (row) => {
-							
-						},
-					},
+						name: '编辑',
+						size: 'small',
+					}
 				],
-            }
+			},
 		}
 	},
 	methods: {
 		currentChange(page) {
 			this.pagination.currentPage = page
-		},
-    },
-    mounted(){
-      alert("989999")
-    }
+		}
+	},
+	mounted() {},
 }
 </script>
