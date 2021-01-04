@@ -10,7 +10,7 @@ module.exports = {
 		// port:1717
     },
 	output: { //配置出口文件
-        filename: '[name].bundle.js', //配置输出文件名字的格式
+        filename: '[name].bundle.js', //配置输出文件名字的格式 下面的都要注释
         // path: path.join(__dirname, './dist'), //输出的绝对路径 -----发布的时候要放开
         // publicPath: '/dist/',//路径-----发布的时候要放开
 	 	// filename: 'itable.js',//打包之后的名称-----发布的时候要放开

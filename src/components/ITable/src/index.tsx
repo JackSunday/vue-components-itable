@@ -10,6 +10,7 @@ export interface columns {
     prop: string,
     label: string
     width?: string,
+    align?: string,
     type?: string,
     slot?: boolean,
     slotName?: string,
@@ -36,7 +37,7 @@ export interface list {
     type?: string,
     icon?: string,
     size?: string,
-    slotName?:string,
+    slotName?: string,
     disabled?: boolean,
     show?: boolean,
     slot?: boolean,
@@ -262,7 +263,7 @@ export default class ITable extends Vue {
                         return <div>{(currentPage - 1) * pageSize + $index + 1}</div>
                     }
                     //自定义操作(插槽可以具有名字)
-                    if (column.slot&&column.slotName!=="header") {              
+                    if (column.slot && column.slotName !== "header") {
                         return column.slotName ? this.$scopedSlots[column.slotName](row) : this.$scopedSlots.default(row)
                     }
                     if (column.format) {
@@ -295,10 +296,12 @@ export default class ITable extends Vue {
                                 }
                                 if (btn.slot) {
                                     return btn.slotName ? this.$scopedSlots[btn.slotName](row) : this.$scopedSlots.default(row)
-                                } else if (btn.method) {
-                                    return <Button {...{ attrs: { ...btn } }} {...{ on: { 'click': () => btn.method(row) } }}>{btn.name}</Button>
+                                } else if (btn.format && btn.method) {
+                                    return <span {...{ on: { 'click': () => btn.method(row) } }} domPropsInnerHTML={btn.format(row)}></span>
                                 } else if (btn.format) {
-                                    return <span domPropsInnerHTML={btn.format(row)}></span>
+                                    return <span  domPropsInnerHTML={btn.format(row)}></span>
+                                }else if (btn.method) {
+                                    return <Button {...{ attrs: { ...btn } }} {...{ on: { 'click': () => btn.method(row) } }}>{btn.name}</Button>
                                 } else {
                                     return <Button {...{ attrs: { ...btn } }}>{btn.name}</Button>
                                 }

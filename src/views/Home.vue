@@ -1,30 +1,74 @@
 <template>
 	<div>
+		<div>
+			<i-search :search-data="searchData" />
+		</div>
 		<div class="table-wrap">
 			<i-table
-                :emptySlot="emptySlot"
+				:emptySlot="emptySlot"
 				:tableData="tableData"
 				:columns="columns"
 				:operateColumn="operateColumn"
 				:pagination="pagination"
 				@current-change="currentChange"
 			>
-               <div slot="empty">2222</div>
+				<div slot="empty">2222</div>
 			</i-table>
 		</div>
 	</div>
 </template>
 <script>
 import ITable from '../components/ITable'
+import ISearch from '../components/ISearch'
 export default {
 	name: 'home',
 	components: {
 		ITable,
+		ISearch,
 	},
 	data() {
 		return {
-            emptySlot:true,
+			emptySlot: true,
 			stripe: true,
+			searchData: [
+				{
+					type: 'text',
+					key: 'name',
+					label: '审批人',
+				},
+				{
+					type: 'date',
+					key: 'date',
+					label: '日期',
+				},
+				{
+					type: 'select',
+					key: 'select',
+					label: '类型',
+                    options:[
+                        {
+                            label:'一年级',
+                            value:'1'
+                        },
+                        {
+                            label:'二年级',
+                            value:'2'
+                        },
+                    ]
+				},
+				{
+					type: 'button',
+					text: '查询',
+					bType: 'primary',
+                    clickMethod:(data)=>{
+                        console.log(data,"0000")
+                    }
+				},
+				{
+					type: 'button',
+					text: '重置',
+				},
+			],
 			columns: [
 				{
 					prop: 'selection',
@@ -46,22 +90,17 @@ export default {
 				},
 				{
 					prop: 'address',
-                    label: '地址',
+					label: '地址',
 				},
 			],
 			tableData: [
+				{ id: 1, date: '20120', name: '邵阳' },
 				{
+					id: 2,
 					date: '20120',
 					name: '邵阳',
 				},
-				{
-					date: '20120',
-					name: '邵阳',
-				},
-				{
-					date: '20120',
-                    name: '邵阳',
-				},
+				{ id: 3, date: '20120', name: '邵阳' },
 			],
 			pagination: {
 				currentPage: 2,
@@ -71,13 +110,26 @@ export default {
 			operateColumn: {
 				width: 350,
 				fixed: 'right',
-				label: '操作',
+				label: '其他',
 				list: [
 					{
 						type: 'warning',
 						name: '编辑',
 						size: 'small',
-					}
+						format: () => `<span>编辑</span>`,
+						method: () => {
+							alert('你好啥样')
+						},
+					},
+					{
+						type: 'warning',
+						name: '删除',
+						size: 'small',
+						format: () => `&nbsp;<span>编辑</span>`,
+						method: (row) => {
+							console.log(row)
+						},
+					},
 				],
 			},
 		}
@@ -85,7 +137,10 @@ export default {
 	methods: {
 		currentChange(page) {
 			this.pagination.currentPage = page
-		}
+		},
+		search(model) {
+			console.log(model)
+		},
 	},
 	mounted() {},
 }

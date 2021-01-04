@@ -1,6 +1,6 @@
 {
 	"name": "vue-components-itable",
-	"version": "1.1.1",
+	"version": "1.1.5",
 	"main": "dist/itable.js",
 	"author": "JackSunday",
 	"license": "MIT",
@@ -20,6 +20,7 @@
 		"@vue/babel-preset-jsx": "^1.1.2",
 		"babel-loader": "^8.1.0",
 		"babel-plugin-component": "^1.1.1",
+		"babel-plugin-jsx-v-model": "^2.0.3",
 		"cross-env": "^7.0.2",
 		"css-loader": "^3.6.0",
 		"file-loader": "^6.1.0",
