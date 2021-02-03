@@ -1,5 +1,8 @@
 <template>
 	<el-form :inline="true" :model="formInline">
+		<el-form-item v-if="$slots.prepend">
+			<slot name="prepend"></slot>
+		</el-form-item>
 		<template v-for="(list, index) in listType">
 			<el-form-item
 				v-if="list.type === 'text'"
@@ -38,7 +41,7 @@
 					:style="{ color: list.color, background: list.bgColor }"
 					:size="list.size"
 					:type="list.bType"
-                    :icon="list.icon"
+					:icon="list.icon"
 					>{{ list.text }}</el-button
 				>
 			</el-form-item>
@@ -48,7 +51,7 @@
 					:type="list.type"
 					:placeholder="list.placeholder"
 					:picker-options="list.pickerOptions"
-                    :size="list.size"
+					:size="list.size"
 				>
 				</el-date-picker>
 			</el-form-item>
@@ -57,7 +60,12 @@
 			<el-button type="primary" :size="listType[0].size" @click="onSubmit"
 				>查询</el-button
 			>
-			<el-button :size="listType[0].size" @click="onReset">重置</el-button>
+			<el-button :size="listType[0].size" @click="onReset"
+				>重置</el-button
+			>
+		</el-form-item>
+		<el-form-item v-if="$slots.append">
+			<slot name="append"></slot>
 		</el-form-item>
 	</el-form>
 </template>
@@ -119,7 +127,10 @@ export default {
 		},
 		// 检查是否与默认的btn
 		checkBtn(listType) {
-			return !listType.filter((item) => item.type === 'btn').length
+			return (
+				!listType.filter((item) => item.type === 'btn').length &&
+				!this.$slots.append
+			)
 		},
 	},
 }
