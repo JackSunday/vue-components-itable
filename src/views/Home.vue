@@ -1,7 +1,11 @@
 <template>
 	<div>
 		<div>
-			<i-search :list-type="searchData" />
+			<i-search enter :list-type="searchData" @search="search">
+              <span slot="append">
+                   <button type="button">点击我啊</button>
+              </span>
+            </i-search>
 		</div>
 		<div class="table-wrap">
 			<i-table
@@ -55,15 +59,7 @@ export default {
                             value:'2'
                         },
                     ]
-				},
-				// {
-				// 	type: 'btn',
-				// 	text: '查询',
-				// 	bType: 'primary',
-                //     click:(data)=>{
-                //         console.log(data,"0000")
-                //     }
-				// },
+				}
 			],
 			columns: [
 				{
@@ -135,7 +131,7 @@ export default {
 			this.pagination.currentPage = page
 		},
 		search(model) {
-			console.log(model)
+			
 		},
 	},
 	mounted() {},

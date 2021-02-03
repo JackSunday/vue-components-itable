@@ -1,11 +1,18 @@
 <template>
-	<el-form :inline="true" :model="formInline">
+	<el-form :inline="inline" :model="formInline">
 		<el-form-item v-if="$slots.prepend">
 			<slot name="prepend"></slot>
 		</el-form-item>
 		<template v-for="(list, index) in listType">
 			<el-form-item
-				v-if="list.type === 'text'"
+				v-if="list.slot"
+				:key="index"
+				:label="list.label"
+			>
+				<slot name="prepend"></slot>
+			</el-form-item>
+			<el-form-item
+				v-else-if="list.type === 'text'"
 				:label="list.label"
 				:key="index"
 			>
@@ -14,6 +21,7 @@
 					v-model="formInline[list.key]"
 					:placeholder="list.placeholder"
 					:size="list.size"
+					@keyup.enter.native="isNotEnter"
 				/>
 			</el-form-item>
 			<el-form-item
@@ -26,6 +34,7 @@
 					v-model="formInline[list.key]"
 					:placeholder="list.placeholder"
 					:size="list.size"
+					@keyup.enter.native="isNotEnter"
 				>
 					<el-option
 						v-for="(opt, index) in list.options"
@@ -52,6 +61,7 @@
 					:placeholder="list.placeholder"
 					:picker-options="list.pickerOptions"
 					:size="list.size"
+					@keyup.enter.native="isNotEnter"
 				>
 				</el-date-picker>
 			</el-form-item>
@@ -91,6 +101,14 @@ export default {
 		[DatePicker.name]: DatePicker,
 	},
 	props: {
+		inline: {
+			type: Boolean,
+			default: true,
+		},
+		enter: {
+			type: Boolean,
+			default: false,
+		},
 		listType: {
 			type: Array,
 			default: () => [],
@@ -115,22 +133,24 @@ export default {
 		},
 	},
 	methods: {
-		// 查询
 		onSubmit() {
 			this.$emit('search', this.formInline)
 		},
-		//重置
 		onReset() {
 			Object.keys(this.formInline).forEach((key) => {
 				this.formInline[key] = ''
 			})
 		},
-		// 检查是否与默认的btn
 		checkBtn(listType) {
 			return (
 				!listType.filter((item) => item.type === 'btn').length &&
 				!this.$slots.append
 			)
+		},
+		isNotEnter() {
+			if (this.enter) {
+				this.$emit('search', this.formInline)
+			}
 		},
 	},
 }
