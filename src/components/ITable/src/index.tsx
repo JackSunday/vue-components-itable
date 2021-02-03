@@ -39,7 +39,7 @@ export interface list {
     size?: string,
     slotName?: string,
     disabled?: boolean,
-    show?: boolean,
+    show?: () => boolean,
     slot?: boolean,
     format?: (row: object) => any,
     method?: (row: any) => void
@@ -291,7 +291,7 @@ export default class ITable extends Vue {
                         default: props => {
                             const { row } = props
                             return list.map(btn => {
-                                if (btn.show === false) {
+                                if (btn.show && btn.show() === false) {
                                     return null
                                 }
                                 if (btn.slot) {
@@ -299,8 +299,8 @@ export default class ITable extends Vue {
                                 } else if (btn.format && btn.method) {
                                     return <span {...{ on: { 'click': () => btn.method(row) } }} domPropsInnerHTML={btn.format(row)}></span>
                                 } else if (btn.format) {
-                                    return <span  domPropsInnerHTML={btn.format(row)}></span>
-                                }else if (btn.method) {
+                                    return <span domPropsInnerHTML={btn.format(row)}></span>
+                                } else if (btn.method) {
                                     return <Button {...{ attrs: { ...btn } }} {...{ on: { 'click': () => btn.method(row) } }}>{btn.name}</Button>
                                 } else {
                                     return <Button {...{ attrs: { ...btn } }}>{btn.name}</Button>

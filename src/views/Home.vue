@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div>
-			<i-search :search-data="searchData" />
+			<i-search :list-type="searchData" />
 		</div>
 		<div class="table-wrap">
 			<i-table
@@ -32,14 +32,14 @@ export default {
 			stripe: true,
 			searchData: [
 				{
-					type: 'text',
+                    type: 'text',
 					key: 'name',
 					label: '审批人',
 				},
 				{
 					type: 'date',
 					key: 'date',
-					label: '日期',
+                    label: '日期',
 				},
 				{
 					type: 'select',
@@ -56,18 +56,14 @@ export default {
                         },
                     ]
 				},
-				{
-					type: 'button',
-					text: '查询',
-					bType: 'primary',
-                    clickMethod:(data)=>{
-                        console.log(data,"0000")
-                    }
-				},
-				{
-					type: 'button',
-					text: '重置',
-				},
+				// {
+				// 	type: 'btn',
+				// 	text: '查询',
+				// 	bType: 'primary',
+                //     click:(data)=>{
+                //         console.log(data,"0000")
+                //     }
+				// },
 			],
 			columns: [
 				{
